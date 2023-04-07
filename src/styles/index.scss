@@ -57,9 +57,14 @@ main {
 				&:placeholder-shown {
 					text-decoration: underline dotted;
 				}
+
+				&.invalid {
+					animation: shake 0.3s;
+
+					color: $color-accent-orange;
+				}
 			}
 		}
-		
 	}
 }
 
@@ -72,3 +77,11 @@ main {
 	grid-column: 1/2;
 	grid-row: 2/3	;
 }
+
+@keyframes shake {
+	0% { transform: translateX(0) }
+	25% { transform: translateX(5px) }
+	50% { transform: translateX(-5px) }
+	75% { transform: translateX(5px) }
+	100% { transform: translateX(0) }
+   }
