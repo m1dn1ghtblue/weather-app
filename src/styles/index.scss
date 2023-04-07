@@ -6,9 +6,10 @@
 	margin: 0;
 }
 
-html {
-	font-size: 18px;
+html, input {
+	font-size: 24px;
 	font-family: 'Roboto', sans-serif;
+	color: $color-black;
 }
 
 body {
@@ -25,6 +26,41 @@ main {
 #weather-main {
 	grid-column: 1/2;
 	grid-row: 1/2;
+	padding: 42px 64px;
+	#location-form {
+
+		label {
+			
+			h2, input {
+				display: inline-block;
+				font-size: 2.5rem;
+				font-weight: 700;
+				text-transform: uppercase;
+			}
+			
+			h2 {
+				margin-right: 8px;
+			}
+
+			#location-input {
+				background-color: transparent;
+				border: none;
+				color: $color-main;
+				
+				transition: color 0.2s ease-in;
+
+				&:focus {
+					outline: none;
+					color: $color-light;
+				}
+
+				&:placeholder-shown {
+					text-decoration: underline dotted;
+				}
+			}
+		}
+		
+	}
 }
 
 #weather-forecast {
