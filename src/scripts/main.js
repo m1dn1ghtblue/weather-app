@@ -3,10 +3,10 @@
 import autosizeInput from 'autosize-input';
 import '../styles/index.scss';
 import getWeatherData from './weatherData';
+import getIcon from './iconMapper';
 
 const locationForm = document.getElementById('location-form');
 const locationInput = document.getElementById('location-input');
-const locationDetailsLabel = document.getElementById('location-details');
 
 // third-party library function to make text input resize to content
 autosizeInput(locationInput);
@@ -37,8 +37,8 @@ function updateData(location) {
 }
 
 function displayData(data) {
-	console.log(data);
 	updateLocationDetails(data.location);
+	updateCurrentWeatherInfo(data.current);
 }
 
 function showError() {
@@ -51,6 +51,8 @@ function clearError() {
 }
 
 function updateLocationDetails(locationData) {
+	const locationDetailsLabel = document.getElementById('location-details');
+
 	let locationDetails = '';
 
 	if (locationData.region) {
@@ -59,4 +61,16 @@ function updateLocationDetails(locationData) {
 	locationDetails += locationData.country;
 
 	locationDetailsLabel.textContent = locationDetails;
+}
+
+function updateCurrentWeatherInfo(weatherData) {
+	const currentTemperatureLabel = document.getElementById('current-temperature-label');
+	const feelsLikeLabel = document.getElementById('feels-like-label');
+	const conditionLabel = document.getElementById('current-condition-label');
+	const conditionIcon = document.getElementById('current-condition-icon');
+
+	currentTemperatureLabel.innerText = weatherData.temp_c;
+	feelsLikeLabel.textContent = weatherData.feelslike_c;
+	conditionLabel.textContent = weatherData.condition.text;
+	conditionIcon.innerHTML = getIcon(weatherData.condition.text);
 }

@@ -20,7 +20,7 @@ body {
 
 main {
 	display: grid;
-	grid-template-columns: 5fr 2fr;
+	grid-template-columns: 1fr 600px;
 }
 
 #weather-main {
@@ -72,6 +72,69 @@ main {
 		font-size: 1.5rem;
 		color: $color-main;
 	}
+
+	#current-weather-container {
+		width: calc(min(1000px, 100%));
+		padding: 12px;
+		display: flex;
+		gap: 64px;
+		justify-content: space-between;
+
+		#current-temperature-container {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			align-items: center;
+
+			#current-temperature-label {
+				color: $color-white;
+				font-size: 6.2rem;
+				text-align: center;
+				&:not(:empty):after {
+					content: '\2103';
+					color: $color-light;
+				}
+			}
+
+			#feels-like-label {
+				font-size: 1.6rem;
+				color: $color-white;
+
+				&:not(:empty) {
+					&::before {
+						content: 'Feels like ';
+						color: $color-light;
+					}
+
+					&::after {
+						content: '\2103';
+						color: $color-light;
+					}
+				}
+			}
+		}
+
+		#current-condition-container {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			align-items: center;
+
+			#current-condition-label {
+				font-size: 2rem;
+				text-align: center;
+			}
+
+			#current-condition-icon {
+				align-items: center;
+			
+				height: 100%;
+				color: $color-white;
+			}
+
+		}
+	}
+	
 }
 
 #weather-forecast {
