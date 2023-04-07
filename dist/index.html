@@ -13,10 +13,16 @@
 				<form id="location-form">
 					<label for="location-input">
 						<h2>Weather in</h2>
-						<input id="location-input" type="text" autocomplete="off" placeholder="Your city" />
+						<input
+							id="location-input"
+							type="text"
+							autocomplete="off"
+							maxlength="24"
+							placeholder="Your city"
+						/>
 					</label>
-					<span id="location-details"></span>
 				</form>
+				<span id="location-details"></span>
 			</section>
 			<section id="weather-forecast"></section>
 			<section id="weather-details"></section>

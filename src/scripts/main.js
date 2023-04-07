@@ -10,25 +10,26 @@ const locationDetailsLabel = document.getElementById('location-details');
 
 // third-party library function to make text input resize to content
 autosizeInput(locationInput);
-
 locationInput.focus();
 
 locationForm.addEventListener('submit', (e) => {
 	e.preventDefault();
-	updateData(locationInput.value);
+	updateData(locationInput.value.toLowerCase().trim());
 });
 
 locationInput.addEventListener('focusout', () => updateData(locationInput.value));
+locationInput.addEventListener('input', clearError);
 
 function updateData(location) {
-	clearError();
-
 	if (!location) {
 		return;
 	}
 
 	getWeatherData(location)
-		.then(displayData)
+		.then((data) => {
+			displayData(data);
+			locationInput.blur();
+		})
 		.catch((error) => {
 			console.error(`Failed to update data: ${error}`);
 			showError();
@@ -37,12 +38,25 @@ function updateData(location) {
 
 function displayData(data) {
 	console.log(data);
+	updateLocationDetails(data.location);
 }
 
 function showError() {
+	clearError();
 	locationInput.classList.add('invalid');
 }
 
 function clearError() {
 	locationInput.classList.remove('invalid');
+}
+
+function updateLocationDetails(locationData) {
+	let locationDetails = '';
+
+	if (locationData.region) {
+		locationDetails += locationData.region + ', ';
+	}
+	locationDetails += locationData.country;
+
+	locationDetailsLabel.textContent = locationDetails;
 }
