@@ -14,7 +14,7 @@ locationInput.focus();
 
 locationForm.addEventListener('submit', (e) => {
 	e.preventDefault();
-	updateData(locationInput.value.toLowerCase().trim());
+	locationInput.blur();
 });
 
 locationInput.addEventListener('focusout', () => updateData(locationInput.value));
@@ -25,10 +25,9 @@ function updateData(location) {
 		return;
 	}
 
-	getWeatherData(location)
+	getWeatherData(location.toLowerCase().trim())
 		.then((data) => {
 			displayData(data);
-			locationInput.blur();
 		})
 		.catch((error) => {
 			console.error(`Failed to update data: ${error}`);
@@ -37,6 +36,7 @@ function updateData(location) {
 }
 
 function displayData(data) {
+	console.log(data);
 	updateLocationDetails(data.location);
 	updateCurrentWeatherInfo(data.current);
 }
