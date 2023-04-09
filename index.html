@@ -28,6 +28,7 @@
 						<span id="current-temperature-label"></span>
 						<span id="feels-like-label"></span>
 					</div>
+
 					<div id="current-condition-container">
 						<svg id="current-condition-icon"></svg>
 						<span id="current-condition-label"></span>
@@ -35,32 +36,47 @@
 				</div>
 			</section>
 
-			<section id="weather-forecast"></section>
+			<section id="weather-forecast">
+				<div id="astro-forecast-container">
+					<div class="astro-forecast-element">
+						<svg id="sunrise-icon"></svg>
+
+						<h3>Sunrise: <span id="sunrise-time-label"></span></h3>
+					</div>
+
+					<div class="astro-forecast-element">
+						<svg id="sunset-icon"></svg>
+						<h3>Sunset: <span id="sunset-time-label"></span></h3>
+					</div>
+				</div>
+
+				<div id="forecast-container"></div>
+			</section>
 
 			<section id="weather-details">
 				<div class="weather-details-element">
 					<h3>Wind speed:</h3>
-					<span id="details-wind-speed"></span>
+					<span id="details-wind-speed">-</span>
 				</div>
 				<div class="weather-details-element">
 					<h3>Wind direction:</h3>
-					<span id="details-wind-dir"></span>
+					<span id="details-wind-dir">-</span>
 				</div>
 				<div class="weather-details-element">
 					<h3>Humidity:</h3>
-					<span id="details-humidity"></span>
+					<span id="details-humidity">-</span>
 				</div>
 				<div class="weather-details-element">
 					<h3>Cloud cover:</h3>
-					<span id="details-cloud"></span>
+					<span id="details-cloud">-</span>
 				</div>
 				<div class="weather-details-element">
 					<h3>Pressure:</h3>
-					<span id="details-pressure"></span>
+					<span id="details-pressure">-</span>
 				</div>
 				<div class="weather-details-element">
 					<h3>Air quality:</h3>
-					<span id="details-aqi"></span>
+					<span id="details-aqi">-</span>
 				</div>
 			</section>
 		</main>
