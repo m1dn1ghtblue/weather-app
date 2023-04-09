@@ -139,6 +139,7 @@ function updateForecast(weatherData) {
 			scrollHeight = element.offsetHeight * i;
 		}
 	}
+
 	forecastContainer.scrollTo(0, scrollHeight);
 }
 
