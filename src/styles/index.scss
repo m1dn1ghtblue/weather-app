@@ -26,8 +26,11 @@ main {
 
 	&.display-hidden {
 		height: 100px;
+
 		#weather-details, #weather-forecast {
 			transform: scale(0);
+
+			visibility: hidden;
 		}
 		
 		#weather-main {
