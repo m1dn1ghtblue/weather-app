@@ -7,6 +7,9 @@ import getIcon from './iconMapper';
 import sunriseSvg from '../resources/weather-icons/sunrise.svg';
 import sunsetSvg from '../resources/weather-icons/sunset.svg';
 
+let displayOn = false;
+document.querySelector('main').classList.add('display-hidden');
+
 const locationForm = document.getElementById('location-form');
 const locationInput = document.getElementById('location-input');
 
@@ -38,6 +41,11 @@ function updateData(location) {
 }
 
 function displayData(data) {
+	if (!displayOn) {
+		displayOn = true;
+		document.querySelector('main').classList.remove('display-hidden');
+	}
+
 	console.log(data);
 	updateLocationDetails(data);
 	updateCurrentWeatherInfo(data);
