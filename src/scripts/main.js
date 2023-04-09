@@ -46,7 +46,6 @@ function displayData(data) {
 		document.querySelector('main').classList.remove('display-hidden');
 	}
 
-	console.log(data);
 	updateLocationDetails(data);
 	updateCurrentWeatherInfo(data);
 	updateCurrentWeatherDetails(data);
@@ -118,7 +117,6 @@ function updateCurrentWeatherDetails(weatherData) {
 
 function updateForecast(weatherData) {
 	const dayData = weatherData.forecast.forecastday[0];
-	console.log(dayData);
 
 	const sunriseIcon = document.getElementById('sunrise-icon');
 	const sunsetIcon = document.getElementById('sunset-icon');
@@ -127,12 +125,12 @@ function updateForecast(weatherData) {
 
 	sunriseIcon.innerHTML = sunriseSvg;
 	sunsetIcon.innerHTML = sunsetSvg;
-	sunriseTimeLabel.textContent = dayData.astro.sunrise;
-	sunsetTimeLabel.textContent = dayData.astro.sunset;
+	sunriseTimeLabel.textContent = normalizeTime(dayData.astro.sunrise);
+	sunsetTimeLabel.textContent = normalizeTime(dayData.astro.sunset);
 
-	const forecastContainer = document.getElementById('forecast-container');
-	while (forecastContainer.firstChild) {
-		forecastContainer.removeChild(forecastContainer.firstChild);
+	const forecastList = document.getElementById('forecast-list');
+	while (forecastList.firstChild) {
+		forecastList.removeChild(forecastList.firstChild);
 	}
 
 	let scrollHeight = 0;
@@ -140,7 +138,7 @@ function updateForecast(weatherData) {
 	for (let i = 0; i < 24; ++i) {
 		const hourData = dayData.hour[i];
 		const element = makeForecastElement(hourData);
-		forecastContainer.appendChild(element);
+		forecastList.appendChild(element);
 
 		if (getHour(hourData.time) == getHour(weatherData.current.last_updated)) {
 			element.classList.add('currentHour');
@@ -148,7 +146,7 @@ function updateForecast(weatherData) {
 		}
 	}
 
-	forecastContainer.scrollTo(0, scrollHeight);
+	forecastList.scrollTo(0, scrollHeight);
 }
 
 function makeForecastElement(hourData) {
@@ -173,4 +171,16 @@ function makeForecastElement(hourData) {
 
 function getHour(timeString) {
 	return timeString.split(' ')[1].split(':')[0];
+}
+
+function normalizeTime(timeString) {
+	let time, period, hours, minutes;
+	[time, period] = timeString.split(' ');
+	[hours, minutes] = time.split(':');
+
+	if (period == 'PM') {
+		hours = Number(hours) + 12;
+	}
+
+	return `${hours}:${minutes}`;
 }
