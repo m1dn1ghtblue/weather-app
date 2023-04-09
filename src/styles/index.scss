@@ -205,7 +205,6 @@ main {
 
 		display: flex;
 		flex-direction: column;
-		gap: 16px;
 		overflow-y: scroll;
 		max-height: 650px;
 
@@ -234,6 +233,12 @@ main {
 			}
 
 			border-top: 1px solid $color-main;
+
+			&.currentHour {
+				.forecast-time {
+					color: $color-accent-green;
+				}
+			}
 		}
 	}
 }

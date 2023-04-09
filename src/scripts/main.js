@@ -39,10 +39,10 @@ function updateData(location) {
 
 function displayData(data) {
 	console.log(data);
-	updateLocationDetails(data.location);
-	updateCurrentWeatherInfo(data.current);
-	updateCurrentWeatherDetails(data.current);
-	updateForecast(data.forecast);
+	updateLocationDetails(data);
+	updateCurrentWeatherInfo(data);
+	updateCurrentWeatherDetails(data);
+	updateForecast(data);
 }
 
 function showError() {
@@ -54,7 +54,8 @@ function clearError() {
 	locationInput.classList.remove('invalid');
 }
 
-function updateLocationDetails(locationData) {
+function updateLocationDetails(weatherData) {
+	const locationData = weatherData.location;
 	const locationDetailsLabel = document.getElementById('location-details');
 
 	let locationDetails = '';
@@ -68,15 +69,17 @@ function updateLocationDetails(locationData) {
 }
 
 function updateCurrentWeatherInfo(weatherData) {
+	const currentData = weatherData.current;
+
 	const currentTemperatureLabel = document.getElementById('current-temperature-label');
 	const feelsLikeLabel = document.getElementById('feels-like-label');
 	const conditionLabel = document.getElementById('current-condition-label');
 	const conditionIcon = document.getElementById('current-condition-icon');
 
-	currentTemperatureLabel.textContent = `${weatherData.temp_c}\u2103`;
-	feelsLikeLabel.textContent = `Feels like ${weatherData.feelslike_c}\u2103`;
-	conditionLabel.textContent = weatherData.condition.text;
-	conditionIcon.innerHTML = getIcon(weatherData.condition.text);
+	currentTemperatureLabel.textContent = `${currentData.temp_c}\u2103`;
+	feelsLikeLabel.textContent = `Feels like ${currentData.feelslike_c}\u2103`;
+	conditionLabel.textContent = currentData.condition.text;
+	conditionIcon.innerHTML = getIcon(currentData.condition.text);
 }
 
 const aqiStatus = {
@@ -89,6 +92,7 @@ const aqiStatus = {
 };
 
 function updateCurrentWeatherDetails(weatherData) {
+	const currentData = weatherData.current;
 	const windSpeedLabel = document.getElementById('details-wind-speed');
 	const windDirLabel = document.getElementById('details-wind-dir');
 	const humidityLabel = document.getElementById('details-humidity');
@@ -96,16 +100,16 @@ function updateCurrentWeatherDetails(weatherData) {
 	const pressureLabel = document.getElementById('details-pressure');
 	const aqiLabel = document.getElementById('details-aqi');
 
-	windSpeedLabel.textContent = `${weatherData.wind_kph}kph`;
-	windDirLabel.textContent = `${weatherData.wind_dir} (${weatherData.wind_degree}\xBA)`;
-	humidityLabel.textContent = `${weatherData.humidity}%`;
-	cloudLabel.textContent = `${weatherData.cloud}%`;
-	pressureLabel.textContent = `${weatherData.pressure_mb}mb`;
-	aqiLabel.textContent = aqiStatus[weatherData.air_quality['us-epa-index']];
+	windSpeedLabel.textContent = `${currentData.wind_kph}kph`;
+	windDirLabel.textContent = `${currentData.wind_dir} (${currentData.wind_degree}\xBA)`;
+	humidityLabel.textContent = `${currentData.humidity}%`;
+	cloudLabel.textContent = `${currentData.cloud}%`;
+	pressureLabel.textContent = `${currentData.pressure_mb}mb`;
+	aqiLabel.textContent = aqiStatus[currentData.air_quality['us-epa-index']];
 }
 
-function updateForecast(forecastData) {
-	const dayData = forecastData.forecastday[0];
+function updateForecast(weatherData) {
+	const dayData = weatherData.forecast.forecastday[0];
 	console.log(dayData);
 
 	const sunriseIcon = document.getElementById('sunrise-icon');
@@ -123,9 +127,19 @@ function updateForecast(forecastData) {
 		forecastContainer.removeChild(forecastContainer.firstChild);
 	}
 
-	for (let hourData of dayData.hour) {
-		forecastContainer.appendChild(makeForecastElement(hourData));
+	let scrollHeight = 0;
+
+	for (let i = 0; i < 24; ++i) {
+		const hourData = dayData.hour[i];
+		const element = makeForecastElement(hourData);
+		forecastContainer.appendChild(element);
+
+		if (getHour(hourData.time) == getHour(weatherData.current.last_updated)) {
+			element.classList.add('currentHour');
+			scrollHeight = element.offsetHeight * i;
+		}
 	}
+	forecastContainer.scrollTo(0, scrollHeight);
 }
 
 function makeForecastElement(hourData) {
@@ -146,4 +160,8 @@ function makeForecastElement(hourData) {
 	conditionIcon.innerHTML = getIcon(hourData.condition.text);
 	element.appendChild(conditionIcon);
 	return element;
+}
+
+function getHour(timeString) {
+	return timeString.split(' ')[1].split(':')[0];
 }
